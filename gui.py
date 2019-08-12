@@ -1,7 +1,14 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 
-
+#TODO:
+#Remove elements from board class init method into a clear
+#readable way
+#seperate methods to be used with seperate  objects: board
+#player, piece, gui
+#prevent users from playing the same move more than once
+#ask user to play again once game has ended
+#initialise ifWon method to win condition
 
 class board(object):
 	def __init__(self):
@@ -108,6 +115,7 @@ class board(object):
 			self.button9.config(image=self.alternateMove(num))
 
 class player():
+	"""remove complication of alternate move from board class"""
 	def __init__(self):
 		pass
 
