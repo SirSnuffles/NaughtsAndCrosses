@@ -1,20 +1,29 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 
-#TODO:
-#Remove elements from board class init method into a clear
-#readable way
-#seperate methods to be used with seperate  objects: board
-#player, piece, gui
-#prevent users from playing the same move more than once
-#ask user to play again once game has ended
-#initialise ifWon method to win condition
+class StatusBar(tk.Frame):   
+	def __init__(self, master):
+		tk.Frame.__init__(self, master)
+		self.variable=tk.StringVar()        
+		self.label=tk.Label(self, bd=1, relief=tk.SUNKEN, anchor=tk.W,
+							textvariable=self.variable,
+							font=('arial',16,'normal'))
+		self.variable.set('Status Bar')
+		self.label.pack(fill=tk.X)        
+		self.pack()
 
-class board(object):
-	def __init__(self):
-		self.root = tk.Tk()
-		self.frame = tk.Frame(self.root, background= "black")
-		self.frame.pack()
+class MyButton(tk.Button):
+
+    def __init__(self, *args, **kwargs):
+        tk.Button.__init__(self, *args, **kwargs)
+
+class MainApplication(tk.Frame):
+	def __init__(self, parent, *args, **kwargs):
+		self.board = [['' for x in range(3)] for y in range(3)]
+		self.moveCount = 0
+		self.playerMove = "Cross"
+		tk.Frame.__init__(self, parent, *args, **kwargs)
+		parent = parent
 		self.emptyImage = Image.open("emptyBox.png")
 		self.emptyPhoto = ImageTk.PhotoImage(self.emptyImage)
 
@@ -23,23 +32,16 @@ class board(object):
 		self.naughtImage = Image.open("Naught.png")
 		self.PlayNaught = ImageTk.PhotoImage(self.naughtImage)
 
-		self.playerMove = "Cross"
-		self.moveCount = 0
-		self.board = [['' for x in range(3)] for y in range(3)]
-		
-		self.setupButtons()
-		self.root.mainloop()
 
-	def setupButtons(self):
-		self.button1 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(1))
-		self.button2 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(2))
-		self.button3 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(3))
-		self.button4 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(4))
-		self.button5 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(5))
-		self.button6 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(6))
-		self.button7 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(7))
-		self.button8 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(8))
-		self.button9 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(9))
+		self.button1 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(1))
+		self.button2 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(2))
+		self.button3 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(3))
+		self.button4 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(4))
+		self.button5 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(5))
+		self.button6 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(6))
+		self.button7 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(7))
+		self.button8 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(8))
+		self.button9 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(9))
 
 		self.button1.grid(row = 0, column = 0)
 		self.button2.grid(row = 0, column = 1)
@@ -50,6 +52,28 @@ class board(object):
 		self.button7.grid(row = 2, column = 0)
 		self.button8.grid(row = 2, column = 1)
 		self.button9.grid(row = 2, column = 2)
+
+
+		# self.button.grid(row = 0, column = 0)
+	def playMove(self, num):
+		if num == 1:
+			self.button1.config(image=self.alternateMove(num))
+		elif num == 2:
+			self.button2.config(image=self.alternateMove(num))
+		elif num == 3:
+			self.button3.config(image=self.alternateMove(num))
+		elif num == 4:
+			self.button4.config(image=self.alternateMove(num))
+		elif num == 5:
+			self.button5.config(image=self.alternateMove(num))
+		elif num == 6:
+			self.button6.config(image=self.alternateMove(num))
+		elif num == 7:
+			self.button7.config(image=self.alternateMove(num))
+		elif num == 8:
+			self.button8.config(image=self.alternateMove(num))
+		elif num == 9:
+			self.button9.config(image=self.alternateMove(num))
 
 	def alternateMove(self, butNum):
 		ifWon = self.returnWin()
@@ -93,35 +117,8 @@ class board(object):
 		else:
 			return False
 
-	def playMove(self, num):
-
-		if num == 1:
-			self.button1.config(image=self.alternateMove(num))
-		elif num == 2:
-			self.button2.config(image=self.alternateMove(num))
-		elif num == 3:
-			self.button3.config(image=self.alternateMove(num))
-		elif num == 4:
-			self.button4.config(image=self.alternateMove(num))
-		elif num == 5:
-			self.button5.config(image=self.alternateMove(num))
-		elif num == 6:
-			self.button6.config(image=self.alternateMove(num))
-		elif num == 7:
-			self.button7.config(image=self.alternateMove(num))
-		elif num == 8:
-			self.button8.config(image=self.alternateMove(num))
-		elif num == 9:
-			self.button9.config(image=self.alternateMove(num))
-
-class player():
-	"""remove complication of alternate move from board class"""
-	def __init__(self):
-		pass
-
-def main():
-	newGame = board()
-
-if __name__ == '__main__':
-	main()
-
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.geometry('625x625')
+    MainApplication(root).pack(side="top", fill="both", expand=True)
+    root.mainloop()
