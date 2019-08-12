@@ -1,40 +1,36 @@
-from tkinter import *
+board = [['' for x in range(3)] for y in range(3)]
 
-root = Tk()
-prompt = StringVar()
-root.title("AVATAR")
-label = Label(root, fg="dark green")
-label.pack()
+board[0][0] = 'o'
+board[1][1] = 'o'
+board[2][2] = 'o'
+# board[0][2] = 'o'
+# board[1][1] = 'o'
+# board[2][0] = 'o'
 
-frame = Frame(root,background='red')
-frame.pack()
+def returnWin():
+	if all(i == 'x' for i in firstDiagonal):
+		return "Crosses Win"
+	elif all(i == 'x' for i in secondDiagonl):
+		return "Crosses Win"
+	elif all(i == 'o' for i in firstDiagonal):
+		return "Naughts Win"
+	elif all(i == 'o' for i in secondDiagonl):
+		return "Naughts Win"
 
-# Function definition
+	firstDiagonal = [r[i] for i, r in enumerate(board)]
+	secondDiagonl = [r[-i-1] for i, r in enumerate(board)]
 
-# first create the canvas
-canvas = Canvas(height=200,width=200)
-canvas.pack()
+print(all(i == 'x' for i in firstDiagonal))
+print(all(i == 'x' for i in secondDiagonl))
 
-def Image1():
-    canvas.delete("all")
-    image1 = PhotoImage(file = "Naught.png")
-    canvas.create_image(0,0,anchor='nw',image=image1)
-    canvas.image = image1
+print(all(i == 'o' for i in firstDiagonal))
+print(all(i == 'o' for i in secondDiagonl))
 
-def Image2():
-    canvas.delete("all")
-    image1 = PhotoImage(file = "Cross.png")
-    canvas.create_image(0,0,anchor='nw',image=image1)
-    canvas.image = image1
 
-#Invoking through button
-TextWindow = Label(frame,anchor = NW, justify = LEFT, bg= 'white', fg   = 'blue', textvariable = prompt, width = 75, height=20)
-TextWindow.pack(side = TOP)
+def main():
+	print(board)
+	print(firstDiagonal)
+	print(secondDiagonl)
 
-conversationbutton = Button(frame, text='Start    Conversation',width=25,fg="green",command = Image1)
-conversationbutton.pack(side = RIGHT)
-
-stopbutton = Button(frame, text='Stop',width=25,fg="red",command = Image2)
-stopbutton.pack(side = RIGHT)
-
-root.mainloop()
+if __name__ == '__main__':
+	main()

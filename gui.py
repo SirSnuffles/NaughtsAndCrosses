@@ -2,40 +2,96 @@ import tkinter as tk
 from PIL import Image, ImageTk
 
 root = tk.Tk()
-# root.geometry("625x625")
 frame = tk.Frame(root, background="black")
 frame.pack()
 emptyImage = Image.open("emptyBox.png")
 emptyPhoto = ImageTk.PhotoImage(emptyImage)
 
-PlayUp = ImageTk.PhotoImage(file ='Cross.png')
-PlayDown = ImageTk.PhotoImage(file ='Naught.png')
+crossImage = Image.open("Cross.png")
+PlayCross = ImageTk.PhotoImage(crossImage)
+naughtImage = Image.open("Naught.png")
+PlayNaught = ImageTk.PhotoImage(naughtImage)
 
-def alternateMove():
-	moves = ['Naught', 'Cross', 'Naught', 'Cross', 'Naught', 'Cross', 'Naught', 'Cross', 'Naught']
-	for move in moves:
-		if move == 'Naught':
-			return ImageTk.PhotoImage(file ='Naught.png')
-		elif move == 'Cross':
-			return ImageTk.PhotoImage(file ='Cross.png')
+playerMove = "Cross"
+moveCount = 0
+board = [['' for x in range(3)] for y in range(3)]
 
+def alternateMove(butNum):
+	global moveCount
+	global playerMove
+	global board
+	ifWon = returnWin(board)
 
-def returncolor():
-    button1.config(image=PlayDownalternateMove)
-def playMove():
-	print('got here')
-	button1.config(image=PlayUp)
-    # button1.after(200,returncolor)
+	if moveCount < 9 and ifWon == False:
+		moveCount += 1
+		# board[]
+		if playerMove == "Cross":
+			playerMove = "Naught"
+			return PlayCross
+		elif playerMove == "Naught":
+			playerMove = "Cross"
+			return PlayNaught
+	else:
+		print(ifWon)
+		return
 
-button1 = tk.Button(frame, image = emptyPhoto, command = playMove)
-button2 = tk.Button(frame, image = emptyPhoto, command = playMove)
-button3 = tk.Button(frame, image = emptyPhoto, command = playMove)
-button4 = tk.Button(frame, image = emptyPhoto, command = playMove)
-button5 = tk.Button(frame, image = emptyPhoto, command = playMove)
-button6 = tk.Button(frame, image = emptyPhoto, command = playMove)
-button7 = tk.Button(frame, image = emptyPhoto, command = playMove)
-button8 = tk.Button(frame, image = emptyPhoto, command = playMove)
-button9 = tk.Button(frame, image = emptyPhoto, command = playMove)
+def returnWin(board):
+	firstDiagonal = [r[i] for i, r in enumerate(board)]
+	secondDiagonl = [r[-i-1] for i, r in enumerate(board)]
+
+	if all(i == 'x' for i in firstDiagonal):
+		return "Crosses Win"
+	elif all(i == 'x' for i in secondDiagonl):
+		return "Crosses Win"
+	elif all(i == 'o' for i in firstDiagonal):
+		return "Naughts Win"
+	elif all(i == 'o' for i in secondDiagonl):
+		return "Naughts Win"
+	elif all(i == 'x' for i in board[0]):
+		return "Crosses Win"
+	elif all(i == 'x' for i in board[1]):
+		return "Crosses Win"
+	elif all(i == 'x' for i in board[2]):
+		return "Crosses Win"
+	elif all(i == 'o' for i in board[0]):
+		return "Naughts Win"
+	elif all(i == 'o' for i in board[1]):
+		return "Naughts Win"
+	elif all(i == 'o' for i in board[2]):
+		return "Naughts Win"	
+	else:
+		return False
+
+def playMove(num):
+
+	if num == 1:
+		button1.config(image=alternateMove(num))
+	elif num == 2:
+		button2.config(image=alternateMove(num))
+	elif num == 3:
+		button3.config(image=alternateMove(num))
+	elif num == 4:
+		button4.config(image=alternateMove(num))
+	elif num == 5:
+		button5.config(image=alternateMove(num))
+	elif num == 6:
+		button6.config(image=alternateMove(num))
+	elif num == 7:
+		button7.config(image=alternateMove(num))
+	elif num == 8:
+		button8.config(image=alternateMove(num))
+	elif num == 9:
+		button9.config(image=alternateMove(num))
+
+button1 = tk.Button(frame, image = emptyPhoto, command = lambda: playMove(1))
+button2 = tk.Button(frame, image = emptyPhoto, command = lambda: playMove(2))
+button3 = tk.Button(frame, image = emptyPhoto, command = lambda: playMove(3))
+button4 = tk.Button(frame, image = emptyPhoto, command = lambda: playMove(4))
+button5 = tk.Button(frame, image = emptyPhoto, command = lambda: playMove(5))
+button6 = tk.Button(frame, image = emptyPhoto, command = lambda: playMove(6))
+button7 = tk.Button(frame, image = emptyPhoto, command = lambda: playMove(7))
+button8 = tk.Button(frame, image = emptyPhoto, command = lambda: playMove(8))
+button9 = tk.Button(frame, image = emptyPhoto, command = lambda: playMove(9))
 
 button1.grid(row = 0, column = 0)
 button2.grid(row = 0, column = 1)
