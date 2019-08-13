@@ -131,5 +131,5 @@ class NaughtsAndCrosses(tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     root.geometry('625x625')
-    MainApplication(root).pack(side="top", fill="both", expand=True)
+    NaughtsAndCrosses(root).pack(side="top", fill="both", expand=True)
     root.mainloop()
