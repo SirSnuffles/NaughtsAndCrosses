@@ -1,29 +1,13 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 
-class StatusBar(tk.Frame):   
-	def __init__(self, master):
-		tk.Frame.__init__(self, master)
-		self.variable=tk.StringVar()        
-		self.label=tk.Label(self, bd=1, relief=tk.SUNKEN, anchor=tk.W,
-							textvariable=self.variable,
-							font=('arial',16,'normal'))
-		self.variable.set('Status Bar')
-		self.label.pack(fill=tk.X)        
-		self.pack()
 
-class MyButton(tk.Button):
 
-    def __init__(self, *args, **kwargs):
-        tk.Button.__init__(self, *args, **kwargs)
-
-class MainApplication(tk.Frame):
-	def __init__(self, parent, *args, **kwargs):
-		self.board = [['' for x in range(3)] for y in range(3)]
-		self.moveCount = 0
-		self.playerMove = "Cross"
-		tk.Frame.__init__(self, parent, *args, **kwargs)
-		parent = parent
+class NaughtsAndCrosses(object):
+	def __init__(self):
+		self.root = tk.Tk()
+		self.frame = tk.Frame(self.root, background= "black")
+		self.frame.pack()
 		self.emptyImage = Image.open("emptyBox.png")
 		self.emptyPhoto = ImageTk.PhotoImage(self.emptyImage)
 
@@ -32,16 +16,23 @@ class MainApplication(tk.Frame):
 		self.naughtImage = Image.open("Naught.png")
 		self.PlayNaught = ImageTk.PhotoImage(self.naughtImage)
 
+		self.playerMove = "Cross"
+		self.moveCount = 0
+		self.board = [['' for x in range(3)] for y in range(3)]
+		
+		self.setupButtons()
+		self.root.mainloop()
 
-		self.button1 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(1))
-		self.button2 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(2))
-		self.button3 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(3))
-		self.button4 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(4))
-		self.button5 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(5))
-		self.button6 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(6))
-		self.button7 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(7))
-		self.button8 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(8))
-		self.button9 = tk.Button(self, image = self.emptyPhoto, command = lambda: self.playMove(9))
+	def setupButtons(self):
+		self.button1 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(1))
+		self.button2 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(2))
+		self.button3 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(3))
+		self.button4 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(4))
+		self.button5 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(5))
+		self.button6 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(6))
+		self.button7 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(7))
+		self.button8 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(8))
+		self.button9 = tk.Button(self.frame, image = self.emptyPhoto, command = lambda: self.playMove(9))
 
 		self.button1.grid(row = 0, column = 0)
 		self.button2.grid(row = 0, column = 1)
@@ -52,28 +43,6 @@ class MainApplication(tk.Frame):
 		self.button7.grid(row = 2, column = 0)
 		self.button8.grid(row = 2, column = 1)
 		self.button9.grid(row = 2, column = 2)
-
-
-		# self.button.grid(row = 0, column = 0)
-	def playMove(self, num):
-		if num == 1:
-			self.button1.config(image=self.alternateMove(num))
-		elif num == 2:
-			self.button2.config(image=self.alternateMove(num))
-		elif num == 3:
-			self.button3.config(image=self.alternateMove(num))
-		elif num == 4:
-			self.button4.config(image=self.alternateMove(num))
-		elif num == 5:
-			self.button5.config(image=self.alternateMove(num))
-		elif num == 6:
-			self.button6.config(image=self.alternateMove(num))
-		elif num == 7:
-			self.button7.config(image=self.alternateMove(num))
-		elif num == 8:
-			self.button8.config(image=self.alternateMove(num))
-		elif num == 9:
-			self.button9.config(image=self.alternateMove(num))
 
 	def alternateMove(self, butNum):
 		ifWon = self.returnWin()
@@ -117,8 +86,32 @@ class MainApplication(tk.Frame):
 		else:
 			return False
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    root.geometry('625x625')
-    MainApplication(root).pack(side="top", fill="both", expand=True)
-    root.mainloop()
+	def playMove(self, num):
+
+		if num == 1:
+			self.button1.config(image=self.alternateMove(num))
+		elif num == 2:
+			self.button2.config(image=self.alternateMove(num))
+		elif num == 3:
+			self.button3.config(image=self.alternateMove(num))
+		elif num == 4:
+			self.button4.config(image=self.alternateMove(num))
+		elif num == 5:
+			self.button5.config(image=self.alternateMove(num))
+		elif num == 6:
+			self.button6.config(image=self.alternateMove(num))
+		elif num == 7:
+			self.button7.config(image=self.alternateMove(num))
+		elif num == 8:
+			self.button8.config(image=self.alternateMove(num))
+		elif num == 9:
+			self.button9.config(image=self.alternateMove(num))
+
+
+
+def main():
+	newGame = NaughtsAndCrosses()
+
+if __name__ == '__main__':
+	main()
+
